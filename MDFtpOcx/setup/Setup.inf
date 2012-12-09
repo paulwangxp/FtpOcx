@@ -1,0 +1,7 @@
+[Add.Code]
+diyOnlineSetup.exe=南京名都安装程序.exe
+[南京名都安装程序.exe]
+file=thiscab
+RegisterServer=yes
+FileVersion=1,0,0,1
+;每次都要修改
