@@ -61,7 +61,8 @@ DISP_FUNCTION(CMDFtpOcxCtrl, "setLocalSaveDir", setLocalSaveDir, VT_I2, VTS_BSTR
 DISP_FUNCTION(CMDFtpOcxCtrl, "selectLocalSaveDir", selectLocalSaveDir, VT_BSTR, VTS_NONE)
 DISP_FUNCTION(CMDFtpOcxCtrl, "copyLocalFile", copyLocalFile, VT_I2, VTS_BSTR VTS_BSTR)
 DISP_FUNCTION(CMDFtpOcxCtrl, "getLocalFileModifyTime", getLocalFileModifyTime, VT_BSTR, VTS_BSTR)
-//}}AFX_DISPATCH_MAP
+	DISP_FUNCTION(CMDFtpOcxCtrl, "getFileSize", getFileSize, VT_I4, VTS_BSTR)
+	//}}AFX_DISPATCH_MAP
 DISP_FUNCTION_ID(CMDFtpOcxCtrl, "AboutBox", DISPID_ABOUTBOX, AboutBox, VT_EMPTY, VTS_NONE)
 END_DISPATCH_MAP()
 
@@ -882,4 +883,11 @@ void CMDFtpOcxCtrl::OnTimer(UINT nIDEvent)
 	}
 	
 	COleControl::OnTimer(nIDEvent);
+}
+
+long CMDFtpOcxCtrl::getFileSize(LPCTSTR strFileName) 
+{
+	CFileStatus status;
+	CFile::GetStatus(strFileName,status);
+	return status.m_size;
 }

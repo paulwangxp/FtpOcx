@@ -89,8 +89,8 @@ bool CMyFtpClient::login()
 	
 		//m_pConnect = m_session.GetFtpConnection( m_Ip, m_user,
 			//m_pwd, m_port, m_passive);
-		m_pConnect = m_session.GetFtpConnection( m_Ip, "ftpdemo",
-			"ftpdemo", m_port, m_passive);
+		m_pConnect = m_session.GetFtpConnection( m_Ip, m_user,
+			m_pwd, m_port, m_passive);
 		if(m_pConnect == NULL)
 		{
 			SetErrorMsg();
@@ -622,11 +622,14 @@ DWORD CMyFtpClient::GetDownloadFilePercent()
 
 CString CMyFtpClient::GetErrorMsg()
 {
+	return "";
 	return m_errorMsg;
 }
 
 void CMyFtpClient::SetErrorMsg()
 {
+	return;
+
 	LPVOID lpMsgBuf; 
 	FormatMessage( 
 		FORMAT_MESSAGE_ALLOCATE_BUFFER | 

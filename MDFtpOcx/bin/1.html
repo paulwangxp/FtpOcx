@@ -252,6 +252,16 @@ function copyLocalFile(){
      }
 }
 
+function getFileSize(){
+    try{
+           var str =  MDOCX.getFileSize("d:\\winxp_ddk.rar");
+		  alert(str);
+     }
+    catch(ex){
+          alert("info "+ex.description);
+     }
+}
+
 </script>
 
 
@@ -283,6 +293,7 @@ function copyLocalFile(){
 	<TD><INPUT TYPE="button" VALUE="取得USB" ONCLICK="getUsbDriver()"></TD>
 	<TD><INPUT TYPE="button" VALUE="本地文件创建时间" ONCLICK="getLocalFileCreateTime()"></TD>
 	<TD><INPUT TYPE="button" VALUE="本地文件修改时间" ONCLICK="getLocalFileModifyTime()"></TD>
+	<TD><INPUT TYPE="button" VALUE="得到文件大小(字节)" ONCLICK="getFileSize()"></TD>
 </TR>
 <TR>
 	<TD><INPUT TYPE="button" VALUE="得到本地文件夹下文件个数" ONCLICK="getLocalDirFilesNum()"></TD>

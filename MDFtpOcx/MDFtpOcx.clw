@@ -12,10 +12,12 @@ ClassCount=2
 Class1=CMDFtpOcxCtrl
 Class2=CMDFtpOcxPropPage
 
-ResourceCount=2
+ResourceCount=4
 Resource1=IDD_ABOUTBOX_MDFTPOCX
 LastPage=0
 Resource2=IDD_PROPPAGE_MDFTPOCX
+Resource3=IDD_DIALOG1
+Resource4=IDD_DIALOG2
 
 [CLS:CMDFtpOcxCtrl]
 Type=0
@@ -45,4 +47,18 @@ Type=1
 Class=CMDFtpOcxPropPage
 ControlCount=1
 Control1=IDC_STATIC,static,1342308352
+
+[DLG:IDD_DIALOG1]
+Type=1
+Class=?
+ControlCount=2
+Control1=IDOK,button,1342242817
+Control2=IDCANCEL,button,1342242816
+
+[DLG:IDD_DIALOG2]
+Type=1
+Class=?
+ControlCount=2
+Control1=IDOK,button,1342242817
+Control2=IDCANCEL,button,1342242816
 

@@ -88,6 +88,7 @@ protected:
 	afx_msg BSTR selectLocalSaveDir();
 	afx_msg short copyLocalFile(LPCTSTR strUsbFileName, LPCTSTR strLocalDir);
 	afx_msg BSTR getLocalFileModifyTime(LPCTSTR filename1);
+	afx_msg long getFileSize(LPCTSTR strFileName);
 	//}}AFX_DISPATCH
 	DECLARE_DISPATCH_MAP()
 
@@ -129,6 +130,7 @@ public:
 	dispidSelectLocalSaveDir = 24L,
 	dispidCopyLocalFile = 25L,
 	dispidGetLocalFileModifyTime = 26L,
+	dispidGetFileSize = 27L,
 	//}}AFX_DISP_ID
 	};
 private:
