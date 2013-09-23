@@ -62,6 +62,8 @@ DISP_FUNCTION(CMDFtpOcxCtrl, "selectLocalSaveDir", selectLocalSaveDir, VT_BSTR, 
 DISP_FUNCTION(CMDFtpOcxCtrl, "copyLocalFile", copyLocalFile, VT_I2, VTS_BSTR VTS_BSTR)
 DISP_FUNCTION(CMDFtpOcxCtrl, "getLocalFileModifyTime", getLocalFileModifyTime, VT_BSTR, VTS_BSTR)
 	DISP_FUNCTION(CMDFtpOcxCtrl, "getFileSize", getFileSize, VT_I4, VTS_BSTR)
+	DISP_FUNCTION(CMDFtpOcxCtrl, "ftpDownloadFile", ftpDownloadFile, VT_I2, VTS_BSTR VTS_BSTR)
+	DISP_FUNCTION(CMDFtpOcxCtrl, "ftpGetDownloadFilePercent", ftpGetDownloadFilePercent, VT_I2, VTS_NONE)
 	//}}AFX_DISPATCH_MAP
 DISP_FUNCTION_ID(CMDFtpOcxCtrl, "AboutBox", DISPID_ABOUTBOX, AboutBox, VT_EMPTY, VTS_NONE)
 END_DISPATCH_MAP()
@@ -443,6 +445,47 @@ short CMDFtpOcxCtrl::ftpUploadFile(LPCTSTR strLocalFileName, LPCTSTR strRemoteFi
 	
 }
 
+long CMDFtpOcxCtrl::ftpGetDownloadSpeed() 
+{
+	//return m_ftpclient.GetUploadSpeed();
+	
+	int fix = 1;//解决在有些网页调用时不能启动timer的问题
+	if(fix)
+	{
+		DWORD sp1 = m_speed1;
+		m_speed1 = m_ftpclient.GetDownloadSpeed();
+
+		if(m_speed1 - sp1 > 0)
+			m_speed = m_speed1 - sp1;
+	}
+
+
+	if( m_speed <=0 )
+		return 0;
+	
+
+	return m_speed/(1024);
+}
+
+short CMDFtpOcxCtrl::ftpGetDownloadFilePercent() 
+{
+	short s1 = (short)m_ftpclient.GetDownloadFilePercent();
+	if(s1 >= 100)
+		KillTimer(m_uploadTimer);
+	
+	return s1;
+}
+
+
+short CMDFtpOcxCtrl::ftpDownloadFile(LPCTSTR strRemoteFileName, LPCTSTR strLocalNewFileName) 
+{
+	//KillTimer(m_uploadTimer);
+	m_speed = 0;
+	m_speed1 = 0;
+	//m_uploadTimer = SetTimer( GET_SPEED_TIMER, 1000, NULL );
+	return m_ftpclient.DownloadFileThread( strRemoteFileName, strLocalNewFileName);
+}
+
 BSTR CMDFtpOcxCtrl::ftpGetErrorMsg() 
 {
 	CString strResult;
@@ -525,10 +568,7 @@ long CMDFtpOcxCtrl::ftpGetUploadSpeed()
 
 }
 
-long CMDFtpOcxCtrl::ftpGetDownloadSpeed() 
-{
-	return m_ftpclient.GetDownloadSpeed();
-}
+
 
 
 //得到USB盘符名称
@@ -891,3 +931,5 @@ long CMDFtpOcxCtrl::getFileSize(LPCTSTR strFileName)
 	CFile::GetStatus(strFileName,status);
 	return status.m_size;
 }
+
+

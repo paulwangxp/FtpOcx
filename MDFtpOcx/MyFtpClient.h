@@ -15,6 +15,7 @@
 class CMyFtpClient  
 {
 public:
+	
 	CMyFtpClient();
 	CMyFtpClient(CString str_ip, CString str_user, CString str_pwd, UINT port);
 	virtual ~CMyFtpClient();
@@ -58,7 +59,8 @@ public:
 
 
 	//下载远程文件
-	bool DownloadFile(CString str_remoteFileName/*远程文件名*/, CString str_LocalFileName/*本地文件名*/);
+	static DWORD WINAPI DownloadFile(LPVOID lpParameter);
+	bool DownloadFileThread(CString str_RemoteFileName, CString str_LocalNewFileName);
 
 	//下载远程文件列表
 	bool DownloadFileList(CStringList str_remoteFileNameList, CStringList str_LocalFileList);

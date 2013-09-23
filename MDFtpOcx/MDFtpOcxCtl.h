@@ -89,6 +89,8 @@ protected:
 	afx_msg short copyLocalFile(LPCTSTR strUsbFileName, LPCTSTR strLocalDir);
 	afx_msg BSTR getLocalFileModifyTime(LPCTSTR filename1);
 	afx_msg long getFileSize(LPCTSTR strFileName);
+	afx_msg short ftpDownloadFile(LPCTSTR strRemoteFileName, LPCTSTR strLocalNewFileName);
+	afx_msg short ftpGetDownloadFilePercent();
 	//}}AFX_DISPATCH
 	DECLARE_DISPATCH_MAP()
 
@@ -131,6 +133,8 @@ public:
 	dispidCopyLocalFile = 25L,
 	dispidGetLocalFileModifyTime = 26L,
 	dispidGetFileSize = 27L,
+	dispidFtpDownloadFile = 28L,
+	dispidFtpGetDownloadFilePercent = 29L,
 	//}}AFX_DISP_ID
 	};
 private:

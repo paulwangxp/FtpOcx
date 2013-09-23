@@ -1,1 +1,6 @@
 http://timestamp.wosign.com/timestamp
+
+getCab:生成cab包的方法
+1.选择第2项：Open existing Self Extraction Directive file
+2.点击："Browse",选择一个sed文件
+3.

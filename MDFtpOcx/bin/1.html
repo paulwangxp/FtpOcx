@@ -262,6 +262,38 @@ function getFileSize(){
      }
 }
 
+function ftpDownloadFile(){
+    try{
+           var str =  MDOCX.ftpDownloadFile("123.mp4" , "d:\\111.mp4");
+		  alert(str);
+     }
+    catch(ex){
+          alert("info "+ex.description);
+     }
+}
+
+function ftpGetDownloadFilePercent(){
+    try{
+           var str =  MDOCX.ftpGetDownloadFilePercent();
+		  alert(str);
+     }
+    catch(ex){
+          alert("info "+ex.description);
+     }
+}
+
+function ftpGetDownloadSpeed(){
+    try{
+           var str =  MDOCX.ftpGetDownloadSpeed();
+		  alert(str);
+     }
+    catch(ex){
+          alert("info "+ex.description);
+     }
+}
+
+
+
 </script>
 
 
@@ -287,6 +319,11 @@ function getFileSize(){
 	<TD><INPUT TYPE="button" VALUE="得到上传进度" ONCLICK="ftpGetUploadFilePercent()"></TD>
 	<TD><INPUT TYPE="button" VALUE="上传速度" ONCLICK="ftpGetUploadSpeed()"></TD>
 	<TD><INPUT TYPE="button" VALUE="删除本地文件" ONCLICK="DelLocalFile()"></TD>
+</TR>
+<TR>
+	<TD><INPUT TYPE="button" VALUE="下载文件" ONCLICK="ftpDownloadFile()"></TD>
+	<TD><INPUT TYPE="button" VALUE="得到下载进度" ONCLICK="ftpGetDownloadFilePercent()"></TD>
+	<TD><INPUT TYPE="button" VALUE="下载速度" ONCLICK="ftpGetDownloadSpeed()"></TD>
 </TR>
 <TR>
 	<TD><INPUT TYPE="button" VALUE="取得目录下的所有文件" ONCLICK="getLocalDirFiles()"></TD>

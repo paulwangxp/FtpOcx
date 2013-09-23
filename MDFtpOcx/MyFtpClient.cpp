@@ -503,7 +503,7 @@ bool CMyFtpClient::RenameRemoteFile(CString str_OldFileName,CString str_NewFileN
 	
 }
 
-bool CMyFtpClient::DownloadFile(CString str_remoteFileName, CString str_LocalFileName)
+DWORD CMyFtpClient::DownloadFile(LPVOID lpParameter)
 {
 	LPBYTE pBuffer = new BYTE[m_FileLenStep+1];
 	memset(pBuffer, 0, m_FileLenStep+1);
@@ -520,27 +520,43 @@ bool CMyFtpClient::DownloadFile(CString str_remoteFileName, CString str_LocalFil
 			}
 		}
 		
-		if( !wrireFile.Open(str_LocalFileName, CFile::modeCreate|CFile::modeWrite|CFile::typeBinary))
+		if( !wrireFile.Open(m_str_LocalFileName, CFile::modeCreate|CFile::modeWrite|CFile::typeBinary))
 		{
-			AfxMessageBox(str_LocalFileName + "  :文件创建失败");
+			AfxMessageBox(m_str_LocalFileName + "  :文件创建失败");
 			
 			CloseRemoteFile();
 			return false;
 		}
 		
+		//获得文件长度要在打开文件前执行
+		CFtpFileFind ftpFind(m_pConnect);
+		if(ftpFind.FindFile(m_str_remoteFileName))
+		{
+			ftpFind.FindNextFile();
+			DWORD dwFilelen	= ftpFind.GetLength();
+			m_TotalDownloadSize = dwFilelen;//远程文件总长度
+		}
+		ftpFind.Close();
 		
-		m_pRemoteFile =  m_pConnect->OpenFile(str_remoteFileName, GENERIC_READ);
+		m_pRemoteFile =  m_pConnect->OpenFile(m_str_remoteFileName, GENERIC_READ);
 		if(m_pRemoteFile == NULL)
 		{
-			AfxMessageBox(str_remoteFileName + "  :远程文件打开失败");
+			AfxMessageBox(m_str_remoteFileName + "  :远程文件打开失败");
 			return false;
 		}
+
+		//m_TotalDownloadSize = m_pRemoteFile->GetLength();//远程文件总长度
+
+
 		
 		
 		
 		
 		
-		m_TotalDownloadSize = m_pRemoteFile->GetLength();//远程文件总长度
+		
+		CString str1;
+		str1.Format("len= %d",m_TotalDownloadSize);
+		AfxMessageBox(str1);
 		
 		m_FileLenStep = m_FileLenStep > m_TotalDownloadSize ? m_TotalDownloadSize : m_FileLenStep;
 		
@@ -595,7 +611,7 @@ bool CMyFtpClient::DownloadFileList(CStringList str_remoteFileNameList, CStringL
 		CString remoteFile = str_remoteFileNameList.GetAt(str_remoteFileNameList.FindIndex(i));
 		CString localFile = str_LocalFileList.GetAt(str_LocalFileList.FindIndex(i));
 
-		DownloadFile( remoteFile, localFile );
+		DownloadFileThread( remoteFile, localFile );
 	}
 
 	return true;
@@ -617,7 +633,16 @@ DWORD CMyFtpClient::GetUploadFilePercent()
 
 DWORD CMyFtpClient::GetDownloadFilePercent()
 {
-	return m_CurDownloadSize * 100 / m_TotalDownloadSize;
+	if(m_TotalDownloadSize <=0)
+		return 0;
+
+	
+	double d1,d2,d3;
+	d2 = m_CurDownloadSize;
+	d3 = m_TotalDownloadSize;
+	d1 = d2  / d3;
+
+	return d1 * 100 ;	
 }
 
 CString CMyFtpClient::GetErrorMsg()
@@ -770,4 +795,20 @@ DWORD  CMyFtpClient::GetDownloadSpeed()
 	*/
 
 	return m_CurDownloadSize;
+}
+
+bool CMyFtpClient::DownloadFileThread(CString str_RemoteFileName, CString str_LocalNewFileName)
+{
+
+	DWORD      _i;
+
+	m_str_remoteFileName = str_RemoteFileName;
+	m_str_LocalFileName = str_LocalNewFileName;
+
+	m_CurUploadSize = m_TotalUploadSize = m_CurDownloadSize = m_TotalDownloadSize = 0;
+
+	::CreateThread (NULL, 0, DownloadFile, this, 0,&_i);
+
+	return 1;
+
 }

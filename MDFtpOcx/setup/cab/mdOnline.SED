@@ -30,7 +30,7 @@ AppLaunched=
 PostInstallCmd=
 AdminQuietInstCmd=
 UserQuietInstCmd=
-FILE0="南京名都执法随时录监督系统安装程序.exe"
+FILE0="南京名都执法记录仪控件安装程序.exe"
 FILE1="Setup.inf"
 [SourceFiles]
 SourceFiles0=D:\develop\xw\project\c++\MDFtpOcx\setup\
